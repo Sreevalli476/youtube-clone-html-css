@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>YouTube Clone</title>
+
+    <style>
+
+        .search-container {
+  flex: 1;
+  max-width: 650px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: white;
+  padding-left: 12px;
+   position: relative;
+   
+ 
+}
+
+        .search-wrapper {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+.search-bar {
+  flex: 1;
+  padding:0px 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+  height: 100%;
+}
+
+.search-bar::placeholder {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+.search-btn {
+    height: 100%;
+  width: 60px;
+  border: none;
+  background: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 20px;
+  position: relative;
+}
+
+.search-btn .tooltip,
+.mic-btn .tooltip {
+  position: absolute;
+  background-color: gray;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 3px;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.search-btn:hover .tooltip, 
+.mic-btn:hover .tooltip
+{
+  opacity: 1;
+}
+.mic-btn {
+  border-left: 1px solid #ccc;
+  border-radius:25px;
+  height: 40px;
+  width: 40px;
+  border:none ;
+  background-color: rgb(245,245,245);
+ margin-left: 10px;
+
+}
+
+.search-btn img,
+.mic-btn img {
+  width: 20px;
+  height: 24px;
+  
+}
+.search-btn,
+.mic-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+.mic-btn img {
+  width: 20px;
+  height: 25px;
+margin-top: 4px;
+
+}
+
+     
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            column-gap: 20px;
+            row-gap: 40px;
+            padding: 10px;
+            margin-left: 72px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .video-preview {
+            width: 100%;
+            position: relative;
+        }
+
+        .thumbnail {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .video-info-grid {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            column-gap: 10px;
+            margin-top: 10px;
+        }
+
+        .channel-pic {
+            width: 50px;
+        }
+
+        .profile-pic {
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .video-author,
+        .video-stats {
+            font-size: 14px;
+            color: #606060;
+            margin: 3px 0;
+        }
+
+       body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  padding-top: 80px;
+  padding-left: 0px;
+  padding-right: 24px;  
+  background-color: rgb(248, 248, 248);
+}
+
+
+        .header {
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 10px 20px;
+            gap: 50px;
+            position: fixed;
+            top:0;
+            left: 0;
+            right:0;
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            border-bottom-color: rgb(228,228,228);
+            z-index: 100;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hamburger-menu {
+            height: 30px;
+        }
+
+        .youtube-logo {
+            height: 30px;
+        }
+
+        .middle-section {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .right-section {
+            display: flex;
+            flex-shrink: 0;
+            gap: 18px;
+            padding-right: 10px;
+            align-items: center;
+        }
+        .upload-icon{
+            height: 28px;
+        }
+        .youtube-apps{
+            height: 28px;
+        }
+        .notification-icon{
+            height: 28px;
+            width: 100%;
+            height: 100%;
+        }
+       
+.channel-pic {
+  width: 32px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.sidebar{
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    top: 80px;
+    height: calc(100vh - 80px);
+    background-color:white;
+    width: 72px;
+    z-index: 50;
+    border-right: 1px solid #e5e5e5;
+    padding-top: 6px;
+    width: 72px;
+     
+}
+.video-time{
+     position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.85); 
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 500;
+    z-index: 10;
+}
+.thumbnail-row {
+  position: relative;
+}
+
+.notification-icon-container{
+    position: relative;
+     width: 28px;
+  height: 28px;
+}
+.notification-count{
+    position: absolute;
+    top: -1px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 6px;
+border-radius: 10px;}
+.sidebar-link{
+    
+  height: 72px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+    cursor: pointer;
+}
+.video-preview:hover {
+  cursor: pointer;
+}
+
+.sidebar-link:hover{
+    background-color: lightgray;
+}
+.sidebar-link img{
+    height:26px ;
+    margin-bottom:4px ;
+
+}
+.sidebar-link div{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+.sidebar-spacer {
+  flex-grow: -1;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div class="left-section">
+            <img class="hamburger-menu" src="hamburger-menu.svg">
+            <img class="youtube-logo" src="youtube-logo.svg">
+        </div>
+
+        <div class="middle-section">
+            <div class="search-container">
+                <input class="search-bar" type="text" placeholder="Search">
+                <button class="search-btn">
+                    <img src="search.svg">
+                    <div class="tooltip">search</div>
+                </button>
+                
+            </div>
+            <button class="mic-btn">
+                    <img src="voice-search-icon.svg">
+                    <div class="tooltip">Search with your voice</div>
+                </button>
+        </div>
+
+        <div class="right-section">
+            <img class="upload-icon" src="upload.svg">
+            <img class="youtube-apps" src="youtube-apps.svg" >
+            <div class="notification-icon-container">
+            <img class="notification-icon"  src="notifications.svg">
+            <div class="notification-count">3</div>
+            </div>
+            
+             <img class="channel-pic" src="channel-pic.jpg">
+                    
+        </div>
+
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-link">
+            <img src="home.svg" >
+            <div>Home</div>
+        </div>
+         <div class="sidebar-link">
+             <img src="explore.svg" >
+             <div>Explore</div>
+         </div>
+          <div class="sidebar-link">
+              <img src="subscriptions.svg" >
+              <div>Subscriptions</div>
+          </div>
+           <div class="sidebar-link">
+              <img src="originals.svg" >
+              <div>Originals</div>
+           </div>
+            <div class="sidebar-link">
+                  <img src="youtube-music (1).svg" >
+                  <div>YouTube Music</div>
+            </div>
+             <div class="sidebar-link">
+                  <img src="library.svg" >
+                  <div>Library</div>
+             </div>
+             <div class="sidebar-spacer"></div>
+
+    </div>
+  <div class="videos-grid">
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=G3e-cpL7ofc" target="_blank">
+          <img class="thumbnail" src="thumbnail-1.avif">
+        </a>
+        <div class="video-time">6:31:24</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channel-1.jpg">
+        </div>
+        <div>
+          <p class="video-title">HTML & CSS Full Course - Beginner to Pro</p>
+          <p class="video-author">SuperSimpleDev</p>
+          <p class="video-stats">17M views • 3 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=n2RNcPRtAiY" target="_blank">
+          <img class="thumbnail" src="THUMBNAIL-2.webp">
+        </a>
+        <div class="video-time">14:22</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channel-2.jpg">
+        </div>
+        <div>
+          <p class="video-title">Talking Tech & AI with Google CEO Sundar Pichai!</p>
+          <p class="video-author">Marques Brownlee</p>
+          <p class="video-stats">4.8M views • 4 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=EerdGm-ehJQ" target="_blank">
+          <img class="thumbnail" src="thumbnail-4.avif">
+        </a>
+        <div class="video-time">7:22:10</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channel-1.jpg">
+        </div>
+        <div>
+          <p class="video-title">JavaScript Full Course - Beginner to Advanced</p>
+          <p class="video-author">Coding Mastery</p>
+          <p class="video-stats">10M views • 2 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=EerdGm-ehJQ" target="_blank">
+          <img class="thumbnail" src="THUMBNAIL-5.avif">
+        </a>
+        <div class="video-time">5:55:31</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="CHANNEL-4.jpg">
+        </div>
+        <div>
+          <p class="video-title">JavaScript Full Course - Beginner to Advanced</p>
+          <p class="video-author">Coding Mastery</p>
+          <p class="video-stats">2.7M views • 8 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=8Aux7nqu6w8" target="_blank">
+          <img class="thumbnail" src="thumbnail-6.webp">
+        </a>
+        <div class="video-time">18:33</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channels4_profile.jpg">
+        </div>
+        <div>
+          <p class="video-title">Sundar Pichai's Eye opening speech!</p>
+          <p class="video-author">STILLL I RISE Motivation</p>
+          <p class="video-stats">2.2M views • 3 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=U0xj6RJWvSE" target="_blank">
+          <img class="thumbnail" src="THUMBNAIL-7.jpg">
+        </a>
+        <div class="video-time">4:11:22</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="CHANNEL-7.jpg">
+        </div>
+        <div>
+          <p class="video-title">Java + DSA + Interview Preparation Course</p>
+          <p class="video-author">Kunal Kushwaha</p>
+          <p class="video-stats">8.6M views • 5 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=QGl3L-1vN28" target="_blank">
+          <img class="thumbnail" src="thumbnail-8.avif">
+        </a>
+        <div class="video-time">11:44:52</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channel-8.jpg">
+        </div>
+        <div>
+          <p class="video-title">Java full course for beginners</p>
+          <p class="video-author">Programming with Mosh</p>
+          <p class="video-stats">13M views • 6 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=8hly31xKli0" target="_blank">
+          <img class="thumbnail" src="thumbnail-9.avif">
+        </a>
+        <div class="video-time">9:28:03</div>
+      </div>
+
+      <div class="video-info-grid">
+        <div class="channel-pic">
+          <img class="profile-pic" src="channel-9.jpg">
+        </div>
+        <div>
+          <p class="video-title">Data Structure Easy to Advanced Course</p>
+          <p class="video-author">freeCodeCamp</p>
+          <p class="video-stats">7.1M views • 6 years ago</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
